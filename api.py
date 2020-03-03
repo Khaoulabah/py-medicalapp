@@ -18,3 +18,10 @@ class API:
             cursor.execute(queries.GET_PATIENT_CONTACTINFO, (patientId))
             for row in cursor:
                 print(row)
+
+    def getPatientNotes(self, firstName, lastName):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_PATIENT_NOTES, (firstName, lastName))
+            for row in cursor:
+                print(row)
