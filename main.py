@@ -9,5 +9,6 @@ try:
     db = Database()
     api = API(db)
     api.getEmployees()
+    api.getMedicalStaffId('Koenn', 'Becker')
 finally:
     db.connection.close()
