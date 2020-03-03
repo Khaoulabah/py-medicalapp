@@ -5,27 +5,6 @@ class API:
     def __init__(self, db):
         self.db = db
 
-    def getPatientId(self, firstName, lastName):
-        with self.db.connection.cursor() as cursor:
-            # Read a single record
-            cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
-            for row in cursor:
-                print(row)
-
-    def getMedicalStaffId(self, firstName, lastName):
-        with self.db.connection.cursor() as cursor:
-            # Read a single record
-            cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
-            for row in cursor:
-                print(row)
-
-    def getEmployees(self):
-        with self.db.connection.cursor() as cursor:
-            # Read a single record
-            cursor.execute(queries.GET_EMPLOYEES)
-            for row in cursor:
-                print(row)
-
     def getPatientContactInfo(self, patientId):
         with self.db.connection.cursor() as cursor:
             # Read a single record
@@ -33,9 +12,9 @@ class API:
             for row in cursor:
                 print(row)
 
-    def getPatientNotes(self, patientId):
+    def getPatientNotes(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             # Read a single record
-            cursor.execute(queries.GET_PATIENT_NOTES, (patientId))
+            cursor.execute(queries.GET_PATIENT_NOTES, (firstName, lastName))
             for row in cursor:
                 print(row)
