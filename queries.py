@@ -5,5 +5,5 @@ GET_PATIENT_CONTACTINFO = '''   SELECT FirstName, LastName, Number as PhoneNumbe
                                     JOIN PhoneInfo pi ON (p.ID = pi.personid)
                                     JOIN PhoneType pt ON (pi.typeid= pt.id)
                                     JOIN Address a ON (p.id=a.personid)
-                                WHERE p.id= %s
+                                WHERE p.id = %s
                             '''
