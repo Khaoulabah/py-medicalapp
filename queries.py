@@ -6,7 +6,7 @@ GET_PATIENT_NOTES = ''' SELECT N.content AS Content, N.date AS Date, P.purpose A
             JOIN Patient PA ON(PA.id = A.patientId)
         WHERE PA.FirstName LIKE %s AND PA.LastName LIKE %s
     '''
-GET_EMPLOYEES = '''SELECT * FROM Employees'''
+
 GET_PATIENT_CONTACTINFO = '''   SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
