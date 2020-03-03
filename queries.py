@@ -1,4 +1,12 @@
-GET_PATIENT_NOTES = ''' SELECT N.content AS Content, N.date AS Date, P.purpose AS Purpose, M.LastName AS Author
+GET_MEDICAL_STAFF = '''
+                        SELECT * FROM MedicalStaff;
+                    '''
+GET_PATIENTS = '''
+                    SELECT * FROM Patient;
+                '''
+
+GET_PATIENT_NOTES = ''' 
+        SELECT N.content AS Content, N.date AS Date, P.purpose AS Purpose, M.LastName AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
             JOIN Appointment A ON(A.ID = N.AppointmentId)
@@ -7,7 +15,8 @@ GET_PATIENT_NOTES = ''' SELECT N.content AS Content, N.date AS Date, P.purpose A
         WHERE PA.id = %s;
     '''
 
-GET_PATIENT_CONTACTINFO = '''   SELECT FirstName, LastName, Number as PhoneNumber,
+GET_PATIENT_CONTACTINFO = '''   
+                            SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
                                     JOIN PhoneInfo pi ON (p.ID = pi.personid)
@@ -19,10 +28,10 @@ GET_PATIENT_ID = '''
                     SELECT Patient.ID
                     FROM Patient 
                     WHERE Patient.firstName LIKE %s AND Patient.lastName LIKE %s;
-                    '''
+                '''
 
 GET_MEDICAL_STAFF_ID = '''
                             SELECT MedicalStaff.ID
                             FROM MedicalStaff
                             WHERE MedicalStaff.firstName LIKE %s AND MedicalStaff.lastName LIKE %s;
-                            '''
+                        '''
