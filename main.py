@@ -8,6 +8,5 @@ from api import API
 try:
     db = Database()
     api = API(db)
-    api.getEmployees()
 finally:
     db.connection.close()
