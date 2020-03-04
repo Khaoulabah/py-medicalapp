@@ -54,3 +54,9 @@ class API:
             for row in cursor:
                 print(row)
 
+    def getAppointmentsBetween(self, startTime, endTime):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_APPOINTMENTS_BETWEEN, (startTime, endTime))
+            for row in cursor:
+                print(row)

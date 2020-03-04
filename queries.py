@@ -37,8 +37,15 @@ GET_MEDICAL_STAFF_ID = '''
                         '''
 
 GET_PATIENT_CONDITIONS = '''
-                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS Diagnosis Date 
+                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS DiagnosisDate 
                                 FROM MedicalDiagnosis MD
                                     JOIN Patient P ON(MD.patientId = P.Id) 
                                 WHERE p.id = %s;
+                            '''
+
+GET_APPOINTMENTS_BETWEEN = '''
+                                SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose
+                                FROM Appointment A
+                                    JOIN Purpose P ON(A.purposeId = P.Id)
+                                WHERE A.startTime >= %s AND A.startTime <= %s;
                             '''
