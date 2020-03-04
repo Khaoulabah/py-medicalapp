@@ -35,3 +35,10 @@ GET_MEDICAL_STAFF_ID = '''
                             FROM MedicalStaff
                             WHERE MedicalStaff.firstName LIKE %s AND MedicalStaff.lastName LIKE %s;
                         '''
+
+GET_PATIENT_CONDITIONS = '''
+                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS Diagnosis Date 
+                                FROM MedicalDiagnosis MD
+                                    JOIN Patient P ON(MD.patientId = P.Id) 
+                                WHERE p.id = %s;
+                            '''

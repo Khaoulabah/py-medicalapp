@@ -46,3 +46,11 @@ class API:
             cursor.execute(queries.GET_PATIENT_NOTES, (patientId))
             for row in cursor:
                 print(row)
+
+    def getPatientConditions(self, patientId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_PATIENT_CONDITIONS, (patientId))
+            for row in cursor:
+                print(row)
+
