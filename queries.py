@@ -67,20 +67,3 @@ GET_AVAILABLE_STAFF = '''
                                 ) AS X ON (MedicalStaff.Id = X.medicalId)
                             WHERE X.medicalId IS NULL 
                         '''
-
-GET_APPOINTMENTS_BETWEEN_PATIENT_ID = '''
-                                SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose, FirstName, LastName
-                                FROM Appointment A
-                                    JOIN Purpose P ON(A.purposeId = P.Id)
-                                    JOIN Patient T ON(T.ID = A.ID)
-                                WHERE A.startTime >= %s AND A.startTime <= %s AND T.ID = &s;
-                            '''
-
-GET_APPOINTMENTS_BETWEEN_STAFF_ID = '''
-                                SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose, t.FirstName AS FirstName,t.LastName AS LastName
-                                FROM Appointment A
-                                    JOIN Purpose P ON(A.purposeId = P.Id)
-                                    JOIN StaffForAppointment S ON(S.AppointmentID = A.ID)
-                                    JOIN MedicalStaff M ON(S.MedicalStaffID = M.ID)
-                                WHERE A.startTime >= %s AND A.startTime <= %s AND S.MedicalStaffID = &s;
-                            '''

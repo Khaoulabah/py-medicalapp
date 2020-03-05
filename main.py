@@ -28,6 +28,12 @@ try:
         print('{}. '.format(i + 1) + calls[i]['name'])
 
     ui = int(input('Choose an option: '))
-    calls[ui - 1]['function']()
+    currentCall = calls[ui - 1]
+    parameters = []
+    for i in range(len(currentCall['parameters'])):
+        parameters.append(input(
+            'Please enter, ' + currentCall['parameters'][i] + ': '))
+
+    calls[ui - 1]['function'](*parameters)
 finally:
     db.connection.close()
