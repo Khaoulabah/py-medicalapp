@@ -55,7 +55,7 @@ class API:
     def getPatientNotes(self, patientId):
         with self.db.connection.cursor() as cursor:
             # Read a single record
-            cursor.execute(queries.GET_PATIENT_NOTES, (patientId))
+            cursor.execute(queries.GET_PATIENT_NOTES % (patientId))
             for row in cursor:
                 print(row)
 
@@ -69,7 +69,8 @@ class API:
     def getAppointmentsBetween(self, startTime, endTime):
         with self.db.connection.cursor() as cursor:
             # Read a single record
-            cursor.execute(queries.GET_APPOINTMENTS_BETWEEN, (startTime, endTime))
+            cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                           (startTime, endTime))
             for row in cursor:
                 print(row)
 

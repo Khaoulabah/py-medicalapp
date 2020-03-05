@@ -12,13 +12,13 @@ GET_APPOINTMENTS = '''
                     '''
 
 GET_PATIENT_NOTES = ''' 
-        SELECT N.content AS Content, N.date AS Date, P.purpose AS Purpose, M.LastName AS Author
+        SELECT N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
             JOIN Appointment A ON(A.ID = N.AppointmentId)
             JOIN Purpose P ON(P.Id = A.purposeId)
             JOIN Patient PA ON(PA.id = A.patientId)
-        WHERE PA.id = %s
+        WHERE PA.id = %d
     '''
 
 GET_PATIENT_CONTACTINFO = '''   

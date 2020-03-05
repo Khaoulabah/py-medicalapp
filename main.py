@@ -8,15 +8,26 @@ from api import API
 try:
     db = Database()
     api = API(db)
-    # correct
-    api.getPatients()
-    # correct
-    api.getPatientId('Benedict', 'Tyson')
-    # correct
-    api.getMedicalStaff()
-    # correct
-    api.getMedicalStaffId('Abdul', 'Heath')
-    # correct
-    api.getAppointments()
+
+    calls = [
+        {
+            'name': "Get Patients",
+            'function': api.getPatients,
+            'parameters': []
+        },
+        {
+            'name': "Get Patient Information",
+            'function': api.getPatientContactInfo,
+            'parameters': [
+                'patientId'
+            ]
+        }
+    ]
+
+    for i in range(len(calls)):
+        print('{}. '.format(i + 1) + calls[i]['name'])
+
+    ui = int(input('Choose an option: '))
+    calls[ui - 1]['function']()
 finally:
     db.connection.close()
