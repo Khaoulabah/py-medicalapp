@@ -26,8 +26,8 @@ GET_PATIENT_CONTACTINFO = '''
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
                                     JOIN PhoneInfo pi ON (p.ID = pi.personId)
-                                    JOIN PhoneType pt ON (pi.typeid = pt.typeId)
-                                    JOIN Address a ON (p.id = a.personID)
+                                    JOIN PhoneType pt ON (pi.typeid= pt.typeid)
+                                    JOIN Address a ON (p.id=a.personId)
                                 WHERE p.id = %s
                             '''
 GET_PATIENT_ID = '''
@@ -63,16 +63,33 @@ GET_AVAILABLE_STAFF = '''
                                     FROM Appointment A
                                         JOIN StaffForAppointment SFA ON(SFA.AppointmentId = A.Id)
                                         JOIN MedicalStaff MS ON(SFA.MedicalStaffId = MS.Id)
-                                    WHERE A.date >= %s AND A.date <= %s 
+                                    WHERE A.date <= %s AND A.startTime >= %s 
                                 ) AS X ON (MedicalStaff.Id = X.medicalId)
                             WHERE X.medicalId IS NULL 
                         '''
-GET_APPOINTMENT_STAFF = '''
-                                SELECT MS.ID AS ID, MS.firstName AS FirstName, MS.lastName AS LastName, 
-                                    ST.name AS Occupation 
+
+GET_APPOINTMENTS_BETWEEN_PATIENTID = '''
+                                SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose, T.FirstName AS FirstName, T.LastName AS LastName
                                 FROM Appointment A
-                                    JOIN StaffForAppointment SFA ON(SFA.appointmentId = A.Id)
-                                    JOIN MedicalStaff MS ON(MS.Id = SFA.medicalStaffID)
-                                    JOIN StaffType ST ON(ST.typeId = MS.staffTypeId)
-                                WHERE Appointment ID LIKE %s
-                                '''
+                                    JOIN Purpose P ON(A.purposeId = P.Id)
+                                    JOIN Patient T ON(A.PatientID = T.ID)
+                                WHERE A.startTime >= %s AND A.startTime <= %s AND T.ID = %s
+                            '''
+
+GET_APPOINTMENTS_BETWEEN_STAFFID = '''
+                                SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose, M.FirstName AS FirstName, M.LastName AS LastName
+                                FROM Appointment A
+                                    JOIN Purpose P ON(A.purposeId = P.Id)
+                                    JOIN StaffForAppointment T ON(T.AppointmentID = A.ID)
+                                    JOIN MedicalStaff M ON(T.MedicalStaffID = M.ID)
+                                WHERE A.startTime >= %s AND A.startTime <= %s AND M.ID = %s
+                            '''
+
+DELETE_APPOINTMENT = '''
+                        DELETE FROM Appointment WHERE Appointment.ID = %s;
+                    '''
+RESCHEDULE_APPOINTMENT = '''
+                            Appointment 
+                            SET date = %s 
+                            WHERE Appointment.Id = %s 
+                            '''

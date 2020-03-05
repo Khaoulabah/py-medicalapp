@@ -82,10 +82,33 @@ class API:
             for row in cursor:
                 print(row)
 
-    def getAppointmentStaff(self, appointmentId):
+    def getAppointmentsBetweenByPatientID(self, startTime, endTime, patientID):
+            with self.db.connection.cursor() as cursor:
+                # Read a single record
+                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                               (startTime, endTime, patientID))
+                for row in cursor:
+                    print(row)
+
+    def getAppointmentsBetweenByStaffID(self, startTime, endTime, staffID):
+            with self.db.connection.cursor() as cursor:
+                # Read a single record
+                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                               (startTime, endTime, staffID))
+                for row in cursor:
+                    print(row)
+
+    def deleteAppointment(self, appointmentId):
         with self.db.connection.cursor() as cursor:
             # Read a single record
-            cursor.execute(queries.GET_APPOINTMENT_STAFF, (appointmentId))
+            cursor.execute(queries.DELETE_APPOINTMENT, (appointmentId))
+            for row in cursor:
+                print(row)
+
+    def rescheduleAppointment(self, newDate, appointmentId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.RESCHEDULE_APPOINTMENT, (newDate, appointmentId))
             for row in cursor:
                 print(row)
 
