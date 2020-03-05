@@ -80,3 +80,19 @@ class API:
             cursor.execute(queries.GET_AVAILABLE_STAFF, (startTime, endTime))
             for row in cursor:
                 print(row)
+
+    def getAppointmentsBetweenByPatientID(self, startTime, endTime, patientID):
+            with self.db.connection.cursor() as cursor:
+                # Read a single record
+                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                               (startTime, endTime, patientID))
+                for row in cursor:
+                    print(row)
+
+    def getAppointmentsBetweenByStaffID(self, startTime, endTime, staffID):
+            with self.db.connection.cursor() as cursor:
+                # Read a single record
+                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                               (startTime, endTime, staffID))
+                for row in cursor:
+                    print(row)
