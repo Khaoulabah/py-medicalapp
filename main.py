@@ -118,7 +118,8 @@ try:
             running = False
             break
         while ui < 1 or ui > len(calls):
-            if (ui = int(input('Invalid Choice (type -1 to quit): '))) == -1:
+            ui = int(input('Invalid Choice (type -1 to quit): '))
+            if -1 == ui:
                 break
 
         currentCall = calls[ui - 1]
