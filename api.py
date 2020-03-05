@@ -80,3 +80,10 @@ class API:
             cursor.execute(queries.GET_AVAILABLE_STAFF, (startTime, endTime))
             for row in cursor:
                 print(row)
+
+    def getAppointmentStaff(self, appointmentId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_APPOINTMENT_STAFF, (appointmentId))
+            for row in cursor:
+                print(row)

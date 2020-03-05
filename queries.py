@@ -63,7 +63,16 @@ GET_AVAILABLE_STAFF = '''
                                     FROM Appointment A
                                         JOIN StaffForAppointment SFA ON(SFA.AppointmentId = A.Id)
                                         JOIN MedicalStaff MS ON(SFA.MedicalStaffId = MS.Id)
-                                    WHERE A.date <= %s AND A.startTime >= %s 
+                                    WHERE A.date >= %s AND A.date <= %s 
                                 ) AS X ON (MedicalStaff.Id = X.medicalId)
                             WHERE X.medicalId IS NULL 
                         '''
+GET_APPOINTMENT_STAFF = '''
+                                SELECT MS.ID AS ID, MS.firstName AS FirstName, MS.lastName AS LastName, 
+                                    ST.name AS Occupation 
+                                FROM Appointment A
+                                    JOIN StaffForAppointment SFA ON(SFA.appointmentId = A.Id)
+                                    JOIN MedicalStaff MS ON(MS.Id = SFA.medicalStaffID)
+                                    JOIN StaffType ST ON(ST.typeId = MS.staffTypeId)
+                                WHERE Appointment ID LIKE %s
+                                '''
