@@ -34,7 +34,6 @@ try:
         parameters.append(input(
             'Please enter, ' + currentCall['parameters'][i] + ': '))
 
-    print(*parameters)
     calls[ui - 1]['function'](*parameters)
 finally:
     db.connection.close()
