@@ -108,12 +108,14 @@ try:
         }
     ]
 
-    while True:
+    running = True
+    while running:
         for i in range(len(calls)):
             print('{}. '.format(i + 1) + calls[i]['name'])
 
         ui = int(input('Choose an option (type -1 to quit): '))
         if ui == -1:
+            running = False
             break
         while ui < 1 or ui > len(calls):
             ui = int(input('Invalid Choice (type -1 to quit): '))
