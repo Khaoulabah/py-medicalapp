@@ -84,3 +84,12 @@ GET_APPOINTMENTS_BETWEEN_STAFFID = '''
                                     JOIN MedicalStaff M ON(T.MedicalStaffID = M.ID)
                                 WHERE A.startTime >= %s AND A.startTime <= %s AND M.ID = %s
                             '''
+
+DELETE_APPOINTMENT = '''
+                        DELETE FROM Appointment WHERE Appointment.ID = %s;
+                    '''
+RESCHEDULE_APPOINTMENT = '''
+                            Appointment 
+                            SET date = %s 
+                            WHERE Appointment.Id = %s 
+                            '''

@@ -96,3 +96,17 @@ class API:
                                (startTime, endTime, staffID))
                 for row in cursor:
                     print(row)
+
+    def deleteAppointment(self, appointmentId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.DELETE_APPOINTMENT, (appointmentId))
+            for row in cursor:
+                print(row)
+
+    def rescheduleAppointment(self, newDate, appointmentId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.RESCHEDULE_APPOINTMENT, (newDate, appointmentId))
+            for row in cursor:
+                print(row)
