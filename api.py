@@ -87,3 +87,10 @@ class API:
             cursor.execute(queries.GET_APPOINTMENT_STAFF, (appointmentId))
             for row in cursor:
                 print(row)
+
+    def getStaffHistory(self, patientId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_STAFF_HISTORY, (patientId))
+            for row in cursor:
+                print(row)
