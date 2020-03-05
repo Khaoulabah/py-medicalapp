@@ -89,7 +89,7 @@ try:
             'name': "Update Condition Information about Medical Diagnosis",
             'function': api.updateMedicalDiagnosisConditionInfo,
             'parameters': [
-                 'MedicalDiagnosisID', 'ConditionInfo'
+                'MedicalDiagnosisID', 'ConditionInfo'
             ]
         },
         {
@@ -120,8 +120,10 @@ try:
         while ui < 1 or ui > len(calls):
             ui = int(input('Invalid Choice (type -1 to quit): '))
             if -1 == ui:
+                running = False
                 break
-
+        if (ui <= -1):
+            break
         currentCall = calls[ui - 1]
         parameters = []
         for i in range(len(currentCall['parameters'])):
