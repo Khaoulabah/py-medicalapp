@@ -25,9 +25,9 @@ GET_PATIENT_CONTACTINFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
-                                    JOIN PhoneInfo pi ON (p.ID = p.patientId)
-                                    JOIN PhoneType pt ON (pi.typeid= pt.id)
-                                    JOIN Address a ON (p.id=a.patientId)
+                                    JOIN PhoneInfo pi ON (p.ID = pi.personId)
+                                    JOIN PhoneType pt ON (pi.typeid= pt.typeid)
+                                    JOIN Address a ON (p.id=a.personId)
                                 WHERE p.id = %s
                             '''
 GET_PATIENT_ID = '''
