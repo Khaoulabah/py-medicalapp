@@ -25,9 +25,9 @@ GET_PATIENT_CONTACTINFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
-                                    JOIN PhoneInfo pi ON (p.ID = pi.personId)
-                                    JOIN PhoneType pt ON (pi.typeid = pt.typeId)
-                                    JOIN Address a ON (p.id = a.personID)
+                                    JOIN PhoneInfo pi ON (p.ID = p.patientId)
+                                    JOIN PhoneType pt ON (pi.typeid= pt.id)
+                                    JOIN Address a ON (p.id=a.patientId)
                                 WHERE p.id = %s
                             '''
 GET_PATIENT_ID = '''
@@ -63,29 +63,7 @@ GET_AVAILABLE_STAFF = '''
                                     FROM Appointment A
                                         JOIN StaffForAppointment SFA ON(SFA.AppointmentId = A.Id)
                                         JOIN MedicalStaff MS ON(SFA.MedicalStaffId = MS.Id)
-                                    WHERE A.date >= %s AND A.date <= %s 
+                                    WHERE A.date <= %s AND A.startTime >= %s 
                                 ) AS X ON (MedicalStaff.Id = X.medicalId)
                             WHERE X.medicalId IS NULL 
                         '''
-
-GET_APPOINTMENT_STAFF = '''
-                                SELECT MS.ID AS ID, MS.firstName AS FirstName, MS.lastName AS LastName, 
-                                    ST.name AS Occupation 
-                                FROM Appointment A
-                                    JOIN StaffForAppointment SFA ON(SFA.appointmentId = A.Id)
-                                    JOIN MedicalStaff MS ON(MS.Id = SFA.medicalStaffID)
-                                    JOIN StaffType ST ON(ST.typeId = MS.staffTypeId)
-                                WHERE Appointment ID LIKE %s
-                                '''
-
-GET_STAFF_HISTORY = '''
-                            SELECT MS.ID AS ID, MS.firstName AS FirstName, MS.lastName AS LastName, 
-                                ST.name AS Occupation  
-                            FROM Patient P 
-                                JOIN Appointment A ON(A.patientId = P.Id)
-                                JOIN StaffForAppointment SFA ON(SFA.appointmentID = A.Id)
-                                JOIN MedicalStaff MS ON(MS.Id = SFA.medicalStaffId)
-                                JOIN StaffType ST ON(ST.typeId = MS.staffTypeId)
-                            WHERE P.Id LIKE %s
-                            
-                    '''
