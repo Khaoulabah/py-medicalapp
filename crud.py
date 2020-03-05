@@ -27,9 +27,19 @@ UPDATE_ADDRESS = '''
                 WHERE ID = %s
             '''
 
+ADD_NOTE = '''
+                INSERT INTO Note (AuthorID, AppointmentID, Content, Date)
+                VALUES(%s, %s, %s,  NOW())
+            '''
+
 UPDATE_NOTE = '''
                 UPDATE Note
                 SET Content = %s, Date = NOW()
+                WHERE AuthorID = %s and AppointmentID = %s
+            '''
+
+DELETE_NOTE = '''
+                DELETE FROM Note
                 WHERE AuthorID = %s and AppointmentID = %s
             '''
 
@@ -44,7 +54,7 @@ UPDATE_MEDICAL_DIAGNOSIS_CONDITIONINFO = '''
                             WHERE ID = %s
                             '''
 
-UPDATE_MEDICAL_DIAGNOSIS_Status = '''
+UPDATE_MEDICAL_DIAGNOSIS_STATUS = '''
                             UPDATE MedicalDiagnosis
                             SET Status = %s, Date = NOW()
                             WHERE ID = %s
@@ -55,4 +65,14 @@ CREATE_NEW_APPOINTMENT = '''
                         VALUES (%s, %s, %s, %s, %s);
                         INSERT INTO StaffForAppointment (MedicalStaffID, AppointmentID)
                         VALUES (%s, LAST_INSERT_ID())
+                        '''
+
+DELETE_APPOINTMENT = '''
+                        DELETE FROM Appointment WHERE Appointment.ID = %s;
+                    '''
+
+RESCHEDULE_APPOINTMENT = '''
+                            UPDATE Appointment
+                            SET date = %s
+                            WHERE Appointment.ID = %s
                         '''

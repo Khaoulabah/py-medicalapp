@@ -38,6 +38,8 @@ class API:
         with self.db.connection.cursor() as cursor:
             # Read a single record
             cursor.execute(queries.GET_PATIENTS)
+            columns = tuple(column[0] for column in cursor.description)
+            print(columns)
             for row in cursor:
                 print(row)
 
@@ -100,17 +102,11 @@ class API:
 
     def deleteAppointment(self, appointmentId):
         with self.db.connection.cursor() as cursor:
-            # Read a single record
-            cursor.execute(queries.DELETE_APPOINTMENT, (appointmentId))
-            for row in cursor:
-                print(row)
+            cursor.execute(crud.DELETE_APPOINTMENT, (appointmentId))
 
     def rescheduleAppointment(self, newDate, appointmentId):
         with self.db.connection.cursor() as cursor:
-            # Read a single record
-            cursor.execute(queries.RESCHEDULE_APPOINTMENT, (newDate, appointmentId))
-            for row in cursor:
-                print(row)
+            cursor.execute(crud.RESCHEDULE_APPOINTMENT, (newDate, appointmentId))
 
     def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height):
         with self.db.connection.cursor() as cursor:
@@ -132,11 +128,19 @@ class API:
             with self.db.connection.cursor() as cursor:
                 cursor.execute(crud.UPDATE_ADDRESS, (StreetAddress, AppNumber, City, State, ZipCode))
 
+    def addNote(self, AppointmentID, AuthorID, Content):
+            with self.db.connection.cursor() as cursor:
+                cursor.execute(crud.ADD_NOTE, (AuthorID, AppointmentID, Content))
+
     def updateNote(self, AppointmentID, AuthorID, Content):
             with self.db.connection.cursor() as cursor:
                 cursor.execute(crud.UPDATE_NOTE, (Content, AuthorID, AppointmentID))
 
-    def addMedicalCondition(self, PatientID, ConditionInfo, Status):
+    def deleteNote(self, AppointmentID, AuthorID):
+            with self.db.connection.cursor() as cursor:
+                cursor.execute(crud.DELETE_NOTE, (AuthorID, AppointmentID))
+
+    def addMedicalDiagnosis(self, PatientID, ConditionInfo, Status):
             with self.db.connection.cursor() as cursor:
                 cursor.execute(crud.ADD_MEDICAL_DIAGNOSIS, (PatientID, ConditionInfo, Status))
 
@@ -146,7 +150,7 @@ class API:
 
     def updateMedicalDiagnosisStatus(self, MedicalDiagnosisID, Status):
             with self.db.connection.cursor() as cursor:
-                cursor.execute(crud.UPDATE_MEDICAL_DIAGNOSIS_Status, (Status, MedicalDiagnosisID))
+                cursor.execute(crud.UPDATE_MEDICAL_DIAGNOSIS_STATUS, (Status, MedicalDiagnosisID))
 
     def createNewAppointment(self,PatientID, RoomID, Date, Duration, PurposeID, MedicalStaffID):
              with self.db.connection.cursor() as cursor:

@@ -11,7 +11,7 @@ GET_APPOINTMENTS = '''
                         SELECT * FROM Appointment
                     '''
 
-GET_PATIENT_NOTES = ''' 
+GET_PATIENT_NOTES = '''
         SELECT N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
@@ -21,7 +21,7 @@ GET_PATIENT_NOTES = '''
         WHERE PA.id = %d
     '''
 
-GET_PATIENT_CONTACTINFO = '''   
+GET_PATIENT_CONTACTINFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
@@ -32,7 +32,7 @@ GET_PATIENT_CONTACTINFO = '''
                             '''
 GET_PATIENT_ID = '''
                     SELECT Patient.ID
-                    FROM Patient 
+                    FROM Patient
                     WHERE Patient.firstName LIKE %s AND Patient.lastName LIKE %s
                 '''
 
@@ -43,9 +43,9 @@ GET_MEDICAL_STAFF_ID = '''
                         '''
 
 GET_PATIENT_CONDITIONS = '''
-                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS DiagnosisDate 
+                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS DiagnosisDate
                                 FROM MedicalDiagnosis MD
-                                    JOIN Patient P ON(MD.patientId = P.Id) 
+                                    JOIN Patient P ON(MD.patientId = P.Id)
                                 WHERE p.id = %s
                             '''
 
@@ -57,15 +57,15 @@ GET_APPOINTMENTS_BETWEEN = '''
                             '''
 GET_AVAILABLE_STAFF = '''
                             SELECT ID AS ID, firstName AS FirstName, lastName AS LastName
-                            FROM MedicalStaff 
+                            FROM MedicalStaff
                                 LEFT JOIN (
                                     SELECT DISTINCT MS.ID AS medicalId
                                     FROM Appointment A
                                         JOIN StaffForAppointment SFA ON(SFA.AppointmentId = A.Id)
                                         JOIN MedicalStaff MS ON(SFA.MedicalStaffId = MS.Id)
-                                    WHERE A.date <= %s AND A.startTime >= %s 
+                                    WHERE A.date <= %s AND A.startTime >= %s
                                 ) AS X ON (MedicalStaff.Id = X.medicalId)
-                            WHERE X.medicalId IS NULL 
+                            WHERE X.medicalId IS NULL
                         '''
 
 GET_APPOINTMENTS_BETWEEN_PATIENTID = '''
@@ -85,11 +85,3 @@ GET_APPOINTMENTS_BETWEEN_STAFFID = '''
                                 WHERE A.startTime >= %s AND A.startTime <= %s AND M.ID = %s
                             '''
 
-DELETE_APPOINTMENT = '''
-                        DELETE FROM Appointment WHERE Appointment.ID = %s;
-                    '''
-RESCHEDULE_APPOINTMENT = '''
-                            Appointment 
-                            SET date = %s 
-                            WHERE Appointment.Id = %s 
-                            '''
