@@ -30,7 +30,7 @@ try:
         ui = int(input('Choose an option (type -1 to quit): '))
         if ui == -1:
             break
-        while ui < 0 or ui > 2:
+        while ui < 1 or ui > 2:
             ui = int(input('Invalid Choice (type -1 to quit): '))
 
         currentCall = calls[ui - 1]
