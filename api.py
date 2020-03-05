@@ -7,7 +7,6 @@ class API:
 
     def getPatientId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
-            cursor.execute(queries.GET_EMPLOYEES)
             # Read a single record
             cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
             for row in cursor:
@@ -24,6 +23,13 @@ class API:
         with self.db.connection.cursor() as cursor:
             # Read a single record
             cursor.execute(queries.GET_MEDICAL_STAFF)
+            for row in cursor:
+                print(row)
+
+    def getAppointments(self):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_APPOINTMENTS)
             for row in cursor:
                 print(row)
 
@@ -72,5 +78,12 @@ class API:
         with self.db.connection.cursor() as cursor:
             # Read a single record
             cursor.execute(queries.GET_AVAILABLE_STAFF, (startTime, endTime))
+            for row in cursor:
+                print(row)
+
+    def getAppointmentStaff(self, appointmentId):
+        with self.db.connection.cursor() as cursor:
+            # Read a single record
+            cursor.execute(queries.GET_APPOINTMENT_STAFF, (appointmentId))
             for row in cursor:
                 print(row)
