@@ -1,9 +1,15 @@
 GET_MEDICAL_STAFF = '''
-                        SELECT * FROM MedicalStaff
+                        SELECT Id, firstName, lastName, email, name
+                        FROM MedicalStaff
+                            JOIN StaffType ON(StaffType.typeId = MedicalStaff.StaffTypeId)
                     '''
 GET_PATIENTS = '''
                     SELECT * FROM Patient
                 '''
+
+GET_APPOINTMENTS = '''
+                        SELECT * FROM Appointment
+                    '''
 
 GET_PATIENT_NOTES = ''' 
         SELECT N.content AS Content, N.date AS Date, P.purpose AS Purpose, M.LastName AS Author
