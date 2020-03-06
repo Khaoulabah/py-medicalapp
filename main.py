@@ -4,24 +4,39 @@ import api
 from database import Database
 from api import API
 
+
+def printCalls(callList):
+    running = True
+    while running:
+        for i in range(len(callList)):
+            print('{}. '.format(i + 1) + callList[i]['name'])
+
+        ui = int(
+            input('Choose an option (0 to go back to category menu, -1 to quit): '))
+        if ui <= -1:
+            running = False
+            return False
+        if ui == 0:
+            running = False
+            return True
+        if ui > len(callList):
+            print('Invalid Choice (type -1 to quit): ')
+
+        currentCall = callList[ui - 1]
+        parameters = []
+        for i in range(len(currentCall['parameters'])):
+            parameters.append(
+                input('Please enter, ' + currentCall['parameters'][i] + ': '))
+
+        callList[ui - 1]['function'](*parameters)
+
+
 # Connect to the database
 try:
     db = Database()
     api = API(db)
 
-    calls = [
-        {
-            'name': "Get Patients",
-            'function': api.getPatients,
-            'parameters': []
-        },
-        {
-            'name': "Get Patient Information",
-            'function': api.getPatientContactInfo,
-            'parameters': [
-                'patientId'
-            ]
-        },
+    create = [
         {
             'name': "Add Patient",
             'function': api.addPatient,
@@ -29,6 +44,30 @@ try:
                 'FirstName', 'LastName', 'Gender', 'DateOfBirth', 'Weight', 'Height'
             ]
         },
+        {
+            'name': "Add Note",
+            'function': api.addNote,
+            'parameters': [
+                'AppointmentID', 'AuthorID', 'Content'
+            ]
+        },
+        {
+            'name': "Add Medical Diagnosis",
+            'function': api.addMedicalDiagnosis,
+            'parameters': [
+                'PatientID', 'ConditionInfo', 'Status'
+            ]
+        },
+        {
+            'name': "Create New Appointment",
+            'function': api.createNewAppointment,
+            'parameters': [
+                'PatientID', 'RoomID', 'Date', 'Duration', 'PurposeID', 'MedicalStaffID'
+            ]
+        }
+    ]
+
+    update = [
         {
             'name': "Update Patient Weight",
             'function': api.updateWeight,
@@ -57,32 +96,12 @@ try:
                 'PatientID', 'StreetAddress', 'AppNumber', 'City', 'State', 'ZipCode'
             ]
         },
-        {
-            'name': "Add Note",
-            'function': api.addNote,
-            'parameters': [
-                'AppointmentID', 'AuthorID', 'Content'
-            ]
-        },
+
         {
             'name': "Update Note",
             'function': api.updateNote,
             'parameters': [
                 'AppointmentID', 'AuthorID', 'Content'
-            ]
-        },
-        {
-            'name': "Delete Note",
-            'function': api.deleteNote,
-            'parameters': [
-                'AppointmentID', 'AuthorID'
-            ]
-        },
-        {
-            'name': "Add Medical Diagnosis",
-            'function': api.addMedicalDiagnosis,
-            'parameters': [
-                'PatientID', 'ConditionInfo', 'Status'
             ]
         },
         {
@@ -98,39 +117,51 @@ try:
             'parameters': [
                 'MedicalDiagnosisID', 'Status'
             ]
+        }
+    ]
+
+    remove = [
+        {
+            'name': "Delete Note",
+            'function': api.deleteNote,
+            'parameters': [
+                'AppointmentID', 'AuthorID'
+            ]
+        },
+    ]
+
+    retrieve = [
+        {
+            'name': "Get Patients",
+            'function': api.getPatients,
+            'parameters': []
         },
         {
-            'name': "Create New Appointment",
-            'function': api.createNewAppointment,
+            'name': "Get Patient Information",
+            'function': api.getPatientContactInfo,
             'parameters': [
-                'PatientID', 'RoomID', 'Date', 'Duration', 'PurposeID', 'MedicalStaffID'
+                'patientId'
             ]
-        }
+        },
     ]
 
     running = True
     while running:
-        for i in range(len(calls)):
-            print('{}. '.format(i + 1) + calls[i]['name'])
-
-        ui = int(input('Choose an option (type -1 to quit): '))
-        if ui == -1:
+        print("""1. Retreival\n2. Update\n3. Create\n4. Remove""")
+        ui = int(input('Choose a category (-1 to quit): '))
+        if ui <= -1:
             running = False
             break
-        while ui < 1 or ui > len(calls):
-            ui = int(input('Invalid Choice (type -1 to quit): '))
-            if -1 == ui:
-                running = False
-                break
-        if (ui <= -1):
-            break
-        currentCall = calls[ui - 1]
-        parameters = []
-        for i in range(len(currentCall['parameters'])):
-            parameters.append(input(
-                'Please enter, ' + currentCall['parameters'][i] + ': '))
-
-        calls[ui - 1]['function'](*parameters)
+        if ui > 4:
+            print('Invalid option, choose 1-4 or -1 to quit.')
+        if ui == 1:
+            running = printCalls(retrieve)
+        elif ui == 2:
+            running = printCalls(update)
+        elif ui == 3:
+            running = printCalls(create)
+        elif ui == 4:
+            running = printCalls(remove)
 
 finally:
     db.connection.close()
