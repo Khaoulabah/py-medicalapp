@@ -12,13 +12,13 @@ GET_APPOINTMENTS = '''
                     '''
 
 GET_PATIENT_NOTES = '''
-        SELECT N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
+        SELECT PA.firstName AS FirstName, PA.lastName LastName, N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
             JOIN Appointment A ON(A.ID = N.AppointmentId)
             JOIN Purpose P ON(P.Id = A.purposeId)
             JOIN Patient PA ON(PA.id = A.patientId)
-        WHERE PA.id = %d
+        WHERE PA.id = %s
     '''
 
 GET_PATIENT_CONTACT_INFO = '''
@@ -43,10 +43,10 @@ GET_MEDICAL_STAFF_ID = '''
                         '''
 
 GET_PATIENT_CONDITIONS = '''
-                                SELECT MD.Condition AS Condition, MD.status AS Status, MD.date AS DiagnosisDate
-                                FROM MedicalDiagnosis MD
-                                    JOIN Patient P ON(MD.patientId = P.Id)
-                                WHERE p.id = %s
+                            SELECT *
+                            FROM MedicalDiagnosis MD
+                                JOIN Patient ON (Patient.Id = MD.PatientId)
+                            WHERE Patient.Id = %s
                             '''
 
 GET_APPOINTMENTS_BETWEEN = '''
