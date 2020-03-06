@@ -21,7 +21,7 @@ GET_PATIENT_NOTES = '''
         WHERE PA.id = %d
     '''
 
-GET_PATIENT_CONTACTINFO = '''
+GET_PATIENT_CONTACT_INFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
@@ -84,4 +84,3 @@ GET_APPOINTMENTS_BETWEEN_STAFFID = '''
                                     JOIN MedicalStaff M ON(T.MedicalStaffID = M.ID)
                                 WHERE A.Date >= %s AND A.Date <= %s AND M.ID = %s
                             '''
-

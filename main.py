@@ -1,4 +1,3 @@
-import pymysql.cursors
 import queries
 import api
 from database import Database
