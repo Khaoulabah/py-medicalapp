@@ -189,7 +189,7 @@ try:
     while running:
         clear()
         print_figlet("Categories:", font='big', colors="CYAN")
-        print("""1. Retreival\n2. Update\n3. Create\n4. Remove""")
+        print("""1. Retrieval\n2. Update\n3. Create\n4. Remove""")
         ui = int(input('Choose a category (-1 to quit): '))
         if ui <= -1:
             running = False
@@ -198,7 +198,7 @@ try:
             print('Invalid option, choose 1-4 or -1 to quit.')
         if ui == 1:
             clear()
-            print_figlet("Retrevals:", font='big', colors="CYAN")
+            print_figlet("Retrievals:", font='big', colors="CYAN")
             running = printCalls(retrieve)
         elif ui == 2:
             clear()
