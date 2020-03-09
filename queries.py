@@ -25,7 +25,7 @@ GET_PATIENT_NOTES = '''
             JOIN Patient PA ON(PA.id = A.patientId)
         WHERE PA.id = %s
     '''
-#working
+#Not working-->needs to have a left join to get patient who don't have phone number
 GET_PATIENT_CONTACT_INFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode

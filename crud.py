@@ -3,17 +3,10 @@ ADD_PATIENT = '''
                 VALUES (%s, %s, %s, %s, %s, %s, %s);
             '''
 
-ADD_ADDRESS_NO_APPT = '''
-                INSERT INTO Address (StreetAddress, City, State, ZipCode)
-                VALUES (%s, %s, %s, %s);
-            '''
-
-ADD_ADDRESS_WITH_APPT = '''
+ADD_ADDRESS = '''
                 INSERT INTO Address (StreetAddress, City, State, ZipCode, AppNumber)
                 VALUES (%s, %s, %s, %s, %s);
             '''
-
-GET_INSERT_ID = '''SELECT LAST_INSERT_ID() AS ID'''
 
 #Working
 UPDATE_WEIGHT = '''

@@ -6,11 +6,6 @@ class API:
     def __init__(self, db):
         self.db = db
 
-    def getLastInsertId(self):
-        with self.db.connection.cursor() as cursor:
-            cursor.execute(crud.GET_INSERT_ID)
-            return cursor.fetchone()
-
     def getPatientId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
@@ -116,19 +111,15 @@ class API:
             cursor.execute(crud.RESCHEDULE_APPOINTMENT,
                            (newDate, appointmentId))
 
+    # Working but not finished yet. Needs ADD_PHONE_NUMBER
     def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height, StreetAddress, City, State, ZipCode, AppNumber):
         with self.db.connection.cursor() as cursor:
-            cursor.execute(crud.ADD_ADDRESS_WITH_APPT, (StreetAddress,
+            if AppNumber == '':
+                AppNumber = None
+            cursor.execute(crud.ADD_ADDRESS, (StreetAddress,
                                                         City, State, ZipCode, AppNumber))
             cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
-                                              Gender, DateOfBirth, Weight, Height, self.getLastInsertId()))
-
-    def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height, StreetAddress, City, State, ZipCode):
-        with self.db.connection.cursor() as cursor:
-            cursor.execute(crud.ADD_ADDRESS_NO_APPT, (StreetAddress,
-                                                      City, State, ZipCode))
-            cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
-                                              Gender, DateOfBirth, Weight, Height, self.getLastInsertId()))
+                                              Gender, DateOfBirth, Weight, Height, cursor.lastrowid))
 
     #Working
     def updateWeight(self, PatientID, Weight):

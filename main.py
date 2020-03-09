@@ -40,8 +40,7 @@ def printCalls(callList):
         for i in range(len(currentCall['parameters'])):
             parInput = input('Please enter, ' +
                              currentCall['parameters'][i] + ': ')
-            if parInput != '':
-                parameters.append(parInput)
+            parameters.append(parInput)
 
         callList[ui - 1]['function'](*parameters)
 
