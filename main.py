@@ -38,8 +38,10 @@ def printCalls(callList):
         currentCall = callList[ui - 1]
         parameters = []
         for i in range(len(currentCall['parameters'])):
-            parameters.append(
-                input('Please enter, ' + currentCall['parameters'][i] + ': '))
+            parInput = input('Please enter, ' +
+                             currentCall['parameters'][i] + ': ')
+            if parInput != '':
+                parameters.append(parInput)
 
         callList[ui - 1]['function'](*parameters)
 
@@ -61,8 +63,17 @@ try:
             'name': "Add Patient",
             'function': api.addPatient,
             'parameters': [
-                'FirstName', 'LastName', 'Gender', 'DateOfBirth', 'Weight', 'Height'
-            ]
+                'FirstName',
+                'LastName',
+                'Gender (m/f)',
+                'DateOfBirth (mm/dd/yyyy)',
+                'Weight (lbs)',
+                'Height (ft)',
+                'StreetAddress',
+                'City',
+                'State',
+                'ZipCode',
+                'AppNumber']
         },
         {
             'name': "Add Note",

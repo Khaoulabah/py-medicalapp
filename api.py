@@ -6,6 +6,11 @@ class API:
     def __init__(self, db):
         self.db = db
 
+    def getLastInsertId(self):
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(crud.GET_INSERT_ID)
+            return cursor.fetchone()
+
     def getPatientId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             # Read a single record
@@ -103,10 +108,19 @@ class API:
             cursor.execute(crud.RESCHEDULE_APPOINTMENT,
                            (newDate, appointmentId))
 
-    def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height):
+    def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height, StreetAddress, City, State, ZipCode, AppNumber):
         with self.db.connection.cursor() as cursor:
+            cursor.execute(crud.ADD_ADDRESS_WITH_APPT, (StreetAddress,
+                                                        City, State, ZipCode, AppNumber))
             cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
-                                              Gender, DateOfBirth, Weight, Height))
+                                              Gender, DateOfBirth, Weight, Height, self.getLastInsertId()))
+
+    def addPatient(self, FirstName, LastName, Gender, DateOfBirth, Weight, Height, StreetAddress, City, State, ZipCode):
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(crud.ADD_ADDRESS_NO_APPT, (StreetAddress,
+                                                      City, State, ZipCode))
+            cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
+                                              Gender, DateOfBirth, Weight, Height, self.getLastInsertId()))
 
     def updateWeight(self, PatientID, Weight):
         with self.db.connection.cursor() as cursor:
