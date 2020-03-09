@@ -1,8 +1,19 @@
-import pymysql.cursors
 import queries
 import api
 from database import Database
 from api import API
+from pyfiglet import Figlet
+from pyfiglet import print_figlet
+from os import system, name
+from time import sleep
+
+
+def clear():
+    if name == 'nt':
+        system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        system('clear')
 
 
 def printCalls(callList):
@@ -21,28 +32,48 @@ def printCalls(callList):
             return True
         if ui > len(callList):
             print('Invalid Choice (type -1 to quit): ')
+            running = True
+            continue
 
         currentCall = callList[ui - 1]
         parameters = []
         for i in range(len(currentCall['parameters'])):
-            parameters.append(
-                input('Please enter, ' + currentCall['parameters'][i] + ': '))
+            parInput = input('Please enter, ' +
+                             currentCall['parameters'][i] + ': ')
+            if parInput != '':
+                parameters.append(parInput)
 
         callList[ui - 1]['function'](*parameters)
 
+
+# Clear screen and show loading text
+clear()
+print_figlet("Connecting...", font='big', colors="RED")
 
 # Connect to the database
 try:
     db = Database()
     api = API(db)
+    clear()
+    print_figlet("Connected!", font='big', colors="GREEN")
+    sleep(0.5)
 
     create = [
         {
             'name': "Add Patient",
             'function': api.addPatient,
             'parameters': [
-                'FirstName', 'LastName', 'Gender', 'DateOfBirth', 'Weight', 'Height'
-            ]
+                'FirstName',
+                'LastName',
+                'Gender (m/f)',
+                'DateOfBirth (mm/dd/yyyy)',
+                'Weight (lbs)',
+                'Height (ft)',
+                'StreetAddress',
+                'City',
+                'State',
+                'ZipCode',
+                'AppNumber']
         },
         {
             'name': "Add Note",
@@ -190,11 +221,33 @@ try:
                 'AppointmentID'
             ]
         },
+        {
+            'name': "Get Medical Staff",
+            'function': api.getMedicalStaff,
+            'parameters': []
+        },
+        {
+            'name': "Get All Appointments",
+            'function': api.getAppointments,
+            'parameters': []
+        },
+        {
+            'name': "Get All Notes for a Patient",
+            'function': api.getPatientNotes,
+            'parameters': ['patientId']
+        },
+        {
+            'name': "Get Medical Conditions of a Patient",
+            'function': api.getPatientConditions,
+            'parameters': ['patientId']
+        },
     ]
 
     running = True
     while running:
-        print("""1. Retreival\n2. Update\n3. Create\n4. Remove""")
+        clear()
+        print_figlet("Categories:", font='big', colors="CYAN")
+        print("""1. Retrieval\n2. Update\n3. Create\n4. Remove""")
         ui = int(input('Choose a category (-1 to quit): '))
         if ui <= -1:
             running = False
@@ -202,12 +255,20 @@ try:
         if ui > 4:
             print('Invalid option, choose 1-4 or -1 to quit.')
         if ui == 1:
+            clear()
+            print_figlet("Retrievals:", font='big', colors="CYAN")
             running = printCalls(retrieve)
         elif ui == 2:
+            clear()
+            print_figlet("Updates:", font='big', colors="CYAN")
             running = printCalls(update)
         elif ui == 3:
+            clear()
+            print_figlet("Inserts:", font='big', colors="CYAN")
             running = printCalls(create)
         elif ui == 4:
+            clear()
+            print_figlet("Removals:", font='big', colors="CYAN")
             running = printCalls(remove)
 
 finally:

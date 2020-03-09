@@ -17,7 +17,7 @@ GET_APPOINTMENTS_FOR_PATIENT = '''
                     '''
 
 GET_PATIENT_NOTES = '''
-        SELECT N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
+        SELECT PA.firstName AS FirstName, PA.lastName LastName, N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
             JOIN Appointment A ON(A.ID = N.AppointmentId)
@@ -26,7 +26,7 @@ GET_PATIENT_NOTES = '''
         WHERE PA.id = %s
     '''
 #working
-GET_PATIENT_CONTACTINFO = '''
+GET_PATIENT_CONTACT_INFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p

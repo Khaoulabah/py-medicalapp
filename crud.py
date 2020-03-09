@@ -1,7 +1,20 @@
 ADD_PATIENT = '''
-                INSERT INTO Patient (FirstName, LastName, Gender, DateOfBirth, Weight, Height)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO Patient (FirstName, LastName, Gender, DateOfBirth, Weight, Height, AddressID)
+                VALUES (%s, %s, %s, %s, %s, %s, %s);
             '''
+
+ADD_ADDRESS_NO_APPT = '''
+                INSERT INTO Address (StreetAddress, City, State, ZipCode)
+                VALUES (%s, %s, %s, %s);
+            '''
+
+ADD_ADDRESS_WITH_APPT = '''
+                INSERT INTO Address (StreetAddress, City, State, ZipCode, AppNumber)
+                VALUES (%s, %s, %s, %s, %s);
+            '''
+
+GET_INSERT_ID = '''SELECT LAST_INSERT_ID() AS ID'''
+
 #Working
 UPDATE_WEIGHT = '''
                 UPDATE Patient
