@@ -117,6 +117,13 @@ try:
             'parameters': [
                 'MedicalDiagnosisID', 'Status'
             ]
+        },
+        {
+            'name': "Reschedule Appointment",
+            'function': api.rescheduleAppointment,
+            'parameters': [
+                'appointmentId', 'newDate'
+            ]
         }
     ]
 
@@ -126,6 +133,13 @@ try:
             'function': api.deleteNote,
             'parameters': [
                 'AppointmentID', 'AuthorID'
+            ]
+        },
+        {
+            'name': "Cancel Appointment",
+            'function': api.deleteAppointment,
+            'parameters': [
+                'AppointmentID'
             ]
         },
     ]
@@ -140,7 +154,40 @@ try:
             'name': "Get Patient Information",
             'function': api.getPatientContactInfo,
             'parameters': [
-                'patientId'
+                'PatientID'
+            ]
+        },
+        {
+            'name': "Get Patient Notes",
+            'function': api.getPatientNotes,
+            'parameters': [
+                'PatientID'
+            ]
+        },
+        {
+            'name': "Get Patient Medical Diagnoses",
+            'function': api.getPatientConditions,
+            'parameters': [
+                'PatientID'
+            ]
+        },
+        {
+            'name': "Get Appointments",
+            'function': api.getAppointments,
+            'parameters': []
+        },
+        {
+            'name': "Get Patient Appointments",
+            'function': api.getAppointmentsForPatient,
+            'parameters': [
+                'PatientID'
+            ]
+        },
+        {
+            'name': "Get Medical Staff for Appointments",
+            'function': api.getMedicalStaffForAppointment,
+            'parameters': [
+                'AppointmentID'
             ]
         },
     ]
