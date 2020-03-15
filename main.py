@@ -195,18 +195,6 @@ try:
             ]
         },
         {
-            'name': "Get Patient Medical Diagnoses",
-            'function': api.getPatientConditions,
-            'parameters': [
-                'PatientID'
-            ]
-        },
-        {
-            'name': "Get Appointments",
-            'function': api.getAppointments,
-            'parameters': []
-        },
-        {
             'name': "Get Patient Appointments",
             'function': api.getAppointmentsForPatient,
             'parameters': [
