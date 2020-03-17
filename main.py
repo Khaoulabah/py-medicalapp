@@ -43,6 +43,7 @@ def printCalls(callList):
                 parameters.append(parInput)
 
             callList[ui - 1]['function'](*parameters)
+            print()
         except ValueError:
             print()
             print("Only numbers are accepted for this menu. Please try again")
@@ -185,6 +186,11 @@ try:
             'parameters': []
         },
         {
+            'name': "Get PatientID",
+            'function': api.getPatientId,
+            'parameters': ['FirstName', 'LastName']
+        },
+        {
             'name': "Get Patient Information",
             'function': api.getPatientContactInfo,
             'parameters': [
@@ -213,9 +219,14 @@ try:
             ]
         },
         {
-            'name': "Get Medical Staff",
+            'name': "Get All Medical Staff",
             'function': api.getMedicalStaff,
             'parameters': []
+        },
+        {
+            'name': "Get Medical Staff ID",
+            'function': api.getMedicalStaffId,
+            'parameters': ['FirstName', 'LastName']
         },
         {
             'name': "Get All Appointments",

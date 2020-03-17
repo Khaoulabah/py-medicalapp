@@ -6,18 +6,21 @@ class API:
     def __init__(self, db):
         self.db = db
 
+    # Working
     def getPatientId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
             for row in cursor:
                 print(row)
 
+    # Working
     def getMedicalStaffId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_MEDICAL_STAFF_ID, (firstName, lastName))
             for row in cursor:
                 print(row)
 
+    # Working
     def getMedicalStaff(self):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_MEDICAL_STAFF)
