@@ -21,28 +21,32 @@ def printCalls(callList):
     while running:
         for i in range(len(callList)):
             print('{}. '.format(i + 1) + callList[i]['name'])
+        try:
+            ui = int(
+                input('Choose an option (0 to go back to category menu, -1 to quit): '))
+            if ui <= -1:
+                running = False
+                return False
+            if ui == 0:
+                running = False
+                return True
+            if ui > len(callList):
+                print('Invalid Choice (type -1 to quit): ')
+                running = True
+                continue
 
-        ui = int(
-            input('Choose an option (0 to go back to category menu, -1 to quit): '))
-        if ui <= -1:
-            running = False
-            return False
-        if ui == 0:
-            running = False
-            return True
-        if ui > len(callList):
-            print('Invalid Choice (type -1 to quit): ')
-            running = True
-            continue
+            currentCall = callList[ui - 1]
+            parameters = []
+            for i in range(len(currentCall['parameters'])):
+                parInput = input('Please enter, ' +
+                                 currentCall['parameters'][i] + ': ')
+                parameters.append(parInput)
 
-        currentCall = callList[ui - 1]
-        parameters = []
-        for i in range(len(currentCall['parameters'])):
-            parInput = input('Please enter, ' +
-                             currentCall['parameters'][i] + ': ')
-            parameters.append(parInput)
-
-        callList[ui - 1]['function'](*parameters)
+            callList[ui - 1]['function'](*parameters)
+        except ValueError:
+            print()
+            print("Only numbers are accepted for this menu. Please try again")
+            print()
 
 
 # Clear screen and show loading text
@@ -235,28 +239,34 @@ try:
         clear()
         print_figlet("Categories:", font='big', colors="CYAN")
         print("""1. Retrieval\n2. Update\n3. Create\n4. Remove""")
-        ui = int(input('Choose a category (-1 to quit): '))
-        if ui <= -1:
-            running = False
-            break
-        if ui > 4:
-            print('Invalid option, choose 1-4 or -1 to quit.')
-        if ui == 1:
-            clear()
-            print_figlet("Retrievals:", font='big', colors="CYAN")
-            running = printCalls(retrieve)
-        elif ui == 2:
-            clear()
-            print_figlet("Updates:", font='big', colors="CYAN")
-            running = printCalls(update)
-        elif ui == 3:
-            clear()
-            print_figlet("Inserts:", font='big', colors="CYAN")
-            running = printCalls(create)
-        elif ui == 4:
-            clear()
-            print_figlet("Removals:", font='big', colors="CYAN")
-            running = printCalls(remove)
+        try:
+            ui = int(input('Choose a category (-1 to quit): '))
+            if ui <= -1:
+                running = False
+                break
+            if ui > 4:
+                print('Invalid option, choose 1-4 or -1 to quit.')
+            if ui == 1:
+                clear()
+                print_figlet("Retrievals:", font='big', colors="CYAN")
+                running = printCalls(retrieve)
+            elif ui == 2:
+                clear()
+                print_figlet("Updates:", font='big', colors="CYAN")
+                running = printCalls(update)
+            elif ui == 3:
+                clear()
+                print_figlet("Inserts:", font='big', colors="CYAN")
+                running = printCalls(create)
+            elif ui == 4:
+                clear()
+                print_figlet("Removals:", font='big', colors="CYAN")
+                running = printCalls(remove)
+        except ValueError:
+            print()
+            print(
+                "Only numbers are accepted for this menu.")
+            input("Press ENTER to try again")
 
 finally:
     db.connection.close()

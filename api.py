@@ -30,7 +30,7 @@ class API:
             for row in cursor:
                 print(row)
 
-    #Working
+    # Working
     def getAppointmentsForPatient(self, PatientID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS_FOR_PATIENT, (PatientID))
@@ -51,14 +51,14 @@ class API:
             for row in cursor:
                 print(row)
 
-    #Working
+    # Working
     def getPatientNotes(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_NOTES, (patientId))
             for row in cursor:
                 print(row)
 
-    #Working
+    # Working
     def getPatientConditions(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_CONDITIONS, (patientId))
@@ -79,33 +79,34 @@ class API:
                 print(row)
 
     def getAppointmentsBetweenByPatientID(self, startTime, endTime, patientID):
-            with self.db.connection.cursor() as cursor:
-                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
-                               (startTime, endTime, patientID))
-                for row in cursor:
-                    print(row)
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                           (startTime, endTime, patientID))
+            for row in cursor:
+                print(row)
 
     def getAppointmentsBetweenByStaffID(self, startTime, endTime, staffID):
-            with self.db.connection.cursor() as cursor:
-                cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
-                               (startTime, endTime, staffID))
-                for row in cursor:
-                    print(row)
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
+                           (startTime, endTime, staffID))
+            for row in cursor:
+                print(row)
 
-    #Working
+    # Working
     def getMedicalStaffForAppointment(self, AppointmentID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_STAFF_FOR_APPOINTMENT, (AppointmentID))
             for row in cursor:
                 print(row)
 
-    #Working
+    # Working
     def deleteAppointment(self, appointmentId):
         with self.db.connection.cursor() as cursor:
-            cursor.execute(crud.DELETE_ALL_STAFF_FOR_APPOINTMENT, (appointmentId))
+            cursor.execute(
+                crud.DELETE_ALL_STAFF_FOR_APPOINTMENT, (appointmentId))
             cursor.execute(crud.DELETE_APPOINTMENT, (appointmentId))
 
-    #Working
+    # Working
     def rescheduleAppointment(self, appointmentId, newDate):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.RESCHEDULE_APPOINTMENT,
@@ -117,73 +118,77 @@ class API:
             if AppNumber == '':
                 AppNumber = None
             cursor.execute(crud.ADD_ADDRESS, (StreetAddress,
-                                                        City, State, ZipCode, AppNumber))
+                                              City, State, ZipCode, AppNumber))
             cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
                                               Gender, DateOfBirth, Weight, Height, cursor.lastrowid))
 
-    #Working
+    # Working
     def updateWeight(self, PatientID, Weight):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_WEIGHT, (Weight, PatientID))
 
-    #Working
+    # Working
     def updateHeight(self, PatientID, Height):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_HEIGHT, (Height, PatientID))
 
-    #Not tested need to get phoneinfoId
+    # Not tested need to get phoneinfoId
     def updatePhoneNumber(self, PhoneInfoID, PhoneNumber):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_PHONENUMBER, (PhoneNumber, PhoneInfoID))
 
+    # Working
     def updateAddress(self, PatientID, StreetAddress, AppNumber, City, State, ZipCode):
         if AppNumber == '':
             AppNumber = None
         with self.db.connection.cursor() as cursor:
-            cursor.execute(crud.UPDATE_ADDRESS, (StreetAddress, AppNumber, City, State, ZipCode, PatientID))
+            cursor.execute(crud.UPDATE_ADDRESS, (StreetAddress,
+                                                 AppNumber, City, State, ZipCode, PatientID))
 
-    #Working
+    # Working
     def addNote(self, AppointmentID, AuthorID, Content):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.ADD_NOTE, (AuthorID, AppointmentID, Content))
 
-    #Working
+    # Working
     def updateNote(self, AppointmentID, AuthorID, Content):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_NOTE,
                            (Content, AuthorID, AppointmentID))
 
-    #Working
+    # Working
     def deleteNote(self, AppointmentID, AuthorID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.DELETE_NOTE, (AuthorID, AppointmentID))
 
-    #Working
+    # Working
     def addMedicalDiagnosis(self, PatientID, ConditionInfo, Status):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.ADD_MEDICAL_DIAGNOSIS,
                            (PatientID, ConditionInfo, Status))
 
-    #Working
+    # Working
     def updateMedicalDiagnosisConditionInfo(self, MedicalDiagnosisID, ConditionInfo):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_MEDICAL_DIAGNOSIS_CONDITIONINFO,
                            (ConditionInfo, MedicalDiagnosisID))
 
-    #Working
+    # Working
     def updateMedicalDiagnosisStatus(self, MedicalDiagnosisID, Status):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.UPDATE_MEDICAL_DIAGNOSIS_STATUS,
                            (Status, MedicalDiagnosisID))
 
-    #Working
+    # Working
     def createNewAppointment(self, PatientID, RoomID, Date, Duration, PurposeID, MedicalStaffID):
-             with self.db.connection.cursor() as cursor:
-                cursor.execute(crud.CREATE_NEW_APPOINTMENT, (PatientID, RoomID, Date, Duration, PurposeID))
-                cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT, (MedicalStaffID,cursor.lastrowid))
-
-    #Working
-    def addStaffForAppointment(self, MedicalStaffID, AppointmentID ):
         with self.db.connection.cursor() as cursor:
-                cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT, (MedicalStaffID, AppointmentID))
+            cursor.execute(crud.CREATE_NEW_APPOINTMENT,
+                           (PatientID, RoomID, Date, Duration, PurposeID))
+            cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT,
+                           (MedicalStaffID, cursor.lastrowid))
 
+    # Working
+    def addStaffForAppointment(self, MedicalStaffID, AppointmentID):
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT,
+                           (MedicalStaffID, AppointmentID))
