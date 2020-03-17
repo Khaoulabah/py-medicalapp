@@ -1,5 +1,6 @@
 import queries
 import crud
+from prettytable import *
 
 
 class API:
@@ -10,97 +11,95 @@ class API:
     def getPatientId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_ID, (firstName, lastName))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getMedicalStaffId(self, firstName, lastName):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_MEDICAL_STAFF_ID, (firstName, lastName))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getMedicalStaff(self):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_MEDICAL_STAFF)
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getAppointments(self):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS)
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getAppointmentsForPatient(self, PatientID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS_FOR_PATIENT, (PatientID))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getPatients(self):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENTS)
-            columns = tuple(column[0] for column in cursor.description)
-            print(columns)
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getPatientContactInfo(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_CONTACT_INFO, (patientId))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getPatientNotes(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_NOTES, (patientId))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getPatientConditions(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_CONDITIONS, (patientId))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getAppointmentsBetween(self, startTime, endTime):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
                            (startTime, endTime))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getAvailableStaff(self, startTime, endTime):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_AVAILABLE_STAFF, (startTime, endTime))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getAppointmentsBetweenByPatientID(self, startTime, endTime, patientID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
                            (startTime, endTime, patientID))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     def getAppointmentsBetweenByStaffID(self, startTime, endTime, staffID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_APPOINTMENTS_BETWEEN,
                            (startTime, endTime, staffID))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def getMedicalStaffForAppointment(self, AppointmentID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_STAFF_FOR_APPOINTMENT, (AppointmentID))
-            for row in cursor:
-                print(row)
+            table = from_db_cursor(cursor)
+            print(table)
 
     # Working
     def deleteAppointment(self, appointmentId):
