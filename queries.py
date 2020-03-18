@@ -19,6 +19,7 @@ GET_APPOINTMENTS_FOR_PATIENT = '''
                             JOIN StaffForAppointment sfa ON (sfa.AppointmentID = Appointment.ID)
                             JOIN MedicalStaff md ON (md.ID = sfa.MedicalStaffID)
                         WHERE PatientID = %s
+                        ORDER BY Appointment.Date
                     '''
 
 GET_PATIENT_NOTES = '''
@@ -71,6 +72,10 @@ GET_ROOMS = '''
                             SELECT * FROM Room
             '''
 
+GET_PURPOSES = '''
+                            SELECT * FROM Purpose
+            '''
+
 GET_APPOINTMENTS_BETWEEN = '''
                                 SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose
                                 FROM Appointment A
@@ -107,7 +112,7 @@ GET_APPOINTMENTS_BETWEEN_STAFFID = '''
                                 WHERE A.Date >= %s AND A.Date <= %s AND M.ID = %s
                             '''
 
-#Working
+# Working
 GET_STAFF_FOR_APPOINTMENT = '''
                             SELECT FirstName, LastName, ST.Name as Role
                             FROM MedicalStaff M

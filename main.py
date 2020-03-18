@@ -54,7 +54,7 @@ def printCalls(callList):
 
 # Clear screen and show loading text
 clear()
-print_figlet("Connecting...", font='big', colors="RED")
+print_figlet("Connecting...", font='big', colors="RESET")
 
 # Connect to the database
 try:
@@ -82,7 +82,7 @@ try:
                 'AppartmentNUmber (optional)',
                 'PhoneNumber',
                 'PhoneType (C/W/H)'
-                ]
+            ]
         },
         {
             'name': "Add Note",
@@ -257,6 +257,11 @@ try:
         {
             'name': "Get All Rooms",
             'function': api.getRooms,
+            'parameters': []
+        },
+        {
+            'name': "Get All Purposes",
+            'function': api.getPurposes,
             'parameters': []
         },
     ]

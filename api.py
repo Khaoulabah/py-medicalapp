@@ -52,7 +52,7 @@ class API:
             cursor.execute(queries.GET_PATIENT_CONTACT_INFO, (patientId))
             table = from_db_cursor(cursor)
             print(table)
-    
+
     def getPatientMedicalInfo(self, patientId):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_PATIENT_MEDICAL_INFO, (patientId))
@@ -106,11 +106,18 @@ class API:
             cursor.execute(queries.GET_STAFF_FOR_APPOINTMENT, (AppointmentID))
             table = from_db_cursor(cursor)
             print(table)
-    
+
     # Working
     def getRooms(self):
         with self.db.connection.cursor() as cursor:
             cursor.execute(queries.GET_ROOMS)
+            table = from_db_cursor(cursor)
+            print(table)
+
+    # Working
+    def getPurposes(self):
+        with self.db.connection.cursor() as cursor:
+            cursor.execute(queries.GET_PURPOSES)
             table = from_db_cursor(cursor)
             print(table)
 
@@ -138,8 +145,9 @@ class API:
                                               City, State, ZipCode, AppNumber))
             cursor.execute(crud.ADD_PATIENT, (FirstName, LastName,
                                               Gender, DateOfBirth, Weight, Height, cursor.lastrowid))
-            cursor.execute(crud.ADD_PHONE, (cursor.lastrowid, None, PhoneType, Number))
-            self.db.connection.commit() 
+            cursor.execute(
+                crud.ADD_PHONE, (cursor.lastrowid, None, PhoneType, Number))
+            self.db.connection.commit()
 
     # Working
     def updateWeight(self, PatientID, Weight):
@@ -216,9 +224,9 @@ class API:
             cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT,
                            (MedicalStaffID, cursor.lastrowid))
             self.db.connection.commit()
-            
 
     # Working
+
     def addStaffForAppointment(self, AppointmentID, MedicalStaffID):
         with self.db.connection.cursor() as cursor:
             cursor.execute(crud.ADD_STAFF_FOR_APPOINTMENT,
