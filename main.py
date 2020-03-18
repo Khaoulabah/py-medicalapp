@@ -10,10 +10,12 @@ from time import sleep
 
 def clear():
     if name == 'nt':
-        system('cls')
+        # system('cls')
+        pass
     # for mac and linux(here, os.name is 'posix')
     else:
-        system('clear')
+        # system('clear')
+        pass
 
 
 def printCalls(callList):
@@ -69,15 +71,18 @@ try:
             'parameters': [
                 'FirstName',
                 'LastName',
-                'Gender (m/f)',
-                'DateOfBirth (mm/dd/yyyy)',
+                'Gender (Male/Female)',
+                'DateOfBirth (YYYY-MM-DD)',
                 'Weight (lbs)',
-                'Height (ft)',
+                'Height (in.)',
                 'StreetAddress',
                 'City',
                 'State',
                 'ZipCode',
-                'AppNumber']
+                'AppartmentNUmber (optional)',
+                'PhoneNumber',
+                'PhoneType (C/W/H)'
+                ]
         },
         {
             'name': "Add Note",
@@ -97,8 +102,14 @@ try:
             'name': "Create New Appointment",
             'function': api.createNewAppointment,
             'parameters': [
-                'PatientID', 'RoomID', 'Date', 'Duration', 'PurposeID', 'MedicalStaffID'
+                'PatientID', 'RoomID', 'Date and Time (YYYY-MM-DD HH:MM:SS)', 'Duration (Min)', 'PurposeID', 'MedicalStaffID'
             ]
+        },
+        {
+            'name': "Add Medical Staff to Appointment",
+            'function': api.addStaffForAppointment,
+            'parameters': [
+                'AppointmentID', 'MedicalStaffID']
         }
     ]
 
@@ -181,7 +192,7 @@ try:
 
     retrieve = [
         {
-            'name': "Get Patients",
+            'name': "Get All Patients",
             'function': api.getPatients,
             'parameters': []
         },
@@ -191,18 +202,23 @@ try:
             'parameters': ['FirstName', 'LastName']
         },
         {
-            'name': "Get Patient Information",
+            'name': "Get Patient's Contact Information",
             'function': api.getPatientContactInfo,
             'parameters': [
                 'PatientID'
             ]
         },
         {
-            'name': "Get Patient Notes",
-            'function': api.getPatientNotes,
+            'name': "Get Patient's Medical Information",
+            'function': api.getPatientMedicalInfo,
             'parameters': [
                 'PatientID'
             ]
+        },
+        {
+            'name': "Get All Notes for a Patient",
+            'function': api.getPatientNotes,
+            'parameters': ['patientId']
         },
         {
             'name': "Get Patient Appointments",
@@ -212,11 +228,9 @@ try:
             ]
         },
         {
-            'name': "Get Medical Staff for Appointments",
-            'function': api.getMedicalStaffForAppointment,
-            'parameters': [
-                'AppointmentID'
-            ]
+            'name': "Get Medical Conditions of a Patient",
+            'function': api.getPatientConditions,
+            'parameters': ['patientId']
         },
         {
             'name': "Get All Medical Staff",
@@ -234,14 +248,16 @@ try:
             'parameters': []
         },
         {
-            'name': "Get All Notes for a Patient",
-            'function': api.getPatientNotes,
-            'parameters': ['patientId']
+            'name': "Get Medical Staff for an Appointment",
+            'function': api.getMedicalStaffForAppointment,
+            'parameters': [
+                'AppointmentID'
+            ]
         },
         {
-            'name': "Get Medical Conditions of a Patient",
-            'function': api.getPatientConditions,
-            'parameters': ['patientId']
+            'name': "Get All Rooms",
+            'function': api.getRooms,
+            'parameters': []
         },
     ]
 

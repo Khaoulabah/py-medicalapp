@@ -12,12 +12,19 @@ GET_APPOINTMENTS = '''
                     '''
 
 GET_APPOINTMENTS_FOR_PATIENT = '''
-                        SELECT * FROM Appointment
+                        SELECT Appointment.ID, PatientID, Date, Duration, pur.Name AS Purpose,
+                        CONCAT(md.FirstName, ' ', md.LastName) AS MedicalStaff, md.ID AS MedicalStaffID
+                        FROM Appointment
+                            JOIN Purpose pur ON (Appointment.PurposeID = pur.ID)
+                            JOIN StaffForAppointment sfa ON (sfa.AppointmentID = Appointment.ID)
+                            JOIN MedicalStaff md ON (md.ID = sfa.MedicalStaffID)
                         WHERE PatientID = %s
                     '''
 
 GET_PATIENT_NOTES = '''
-        SELECT PA.firstName AS FirstName, PA.lastName LastName, N.content AS Content, N.date AS Date, P.Name AS Purpose, M.LastName AS Author
+        SELECT PA.firstName AS FirstName, PA.lastName LastName,
+        N.content AS Content, N.date AS Date, P.Name AS Purpose,
+        CONCAT(M.FirstName, ' ', M.LastName) AS Author
         FROM Note N
             JOIN MedicalStaff M ON(M.ID = N.AuthorID)
             JOIN Appointment A ON(A.ID = N.AppointmentId)
@@ -25,16 +32,23 @@ GET_PATIENT_NOTES = '''
             JOIN Patient PA ON(PA.id = A.patientId)
         WHERE PA.id = %s
     '''
-#Not working-->needs to have a left join to get patient who don't have phone number
+# Working
 GET_PATIENT_CONTACT_INFO = '''
                             SELECT FirstName, LastName, Number as PhoneNumber,
                                     Name as PhoneType, StreetAddress, AppNumber, City, State, ZipCode
                                 FROM Patient p
-                                    JOIN PhoneInfo pi ON (p.ID = pi.patientId)
-                                    JOIN PhoneType pt ON (pi.typeid = pt.typeid)
+                                    LEFT JOIN PhoneInfo pi ON (p.ID = pi.patientId)
+                                    LEFT JOIN PhoneType pt ON (pi.typeid = pt.typeid)
                                     JOIN Address a ON (p.addressID=a.Id)
                                 WHERE p.id = %s
                             '''
+# Working
+GET_PATIENT_MEDICAL_INFO = '''
+                            SELECT FirstName, LastName, Height, Weight
+                                FROM Patient p
+                                WHERE p.id = %s
+                            '''
+
 GET_PATIENT_ID = '''
                     SELECT Patient.ID
                     FROM Patient
@@ -52,6 +66,10 @@ GET_PATIENT_CONDITIONS = '''
                             FROM MedicalDiagnosis MD
                             WHERE PatientId = %s
                         '''
+
+GET_ROOMS = '''
+                            SELECT * FROM Room
+            '''
 
 GET_APPOINTMENTS_BETWEEN = '''
                                 SELECT ID AS ID, Date AS Date, Duration AS Duration, p.purpose AS Purpose

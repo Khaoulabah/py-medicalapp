@@ -8,6 +8,12 @@ ADD_ADDRESS = '''
                 VALUES (%s, %s, %s, %s, %s);
             '''
 
+ADD_PHONE = '''
+                INSERT INTO PhoneInfo (PatientId, StaffID, TypeID, Number)
+                VALUES (%s, %s, %s, %s);
+            '''
+
+
 #Working
 UPDATE_WEIGHT = '''
                 UPDATE Patient
